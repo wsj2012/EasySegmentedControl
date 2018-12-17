@@ -1,0 +1,2 @@
+# EasySegmentedControl
+swift版本HMSegmentedControl,一个好用的第三方分段控制器库。
