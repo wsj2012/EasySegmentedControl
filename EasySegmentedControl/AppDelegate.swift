@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  EasySegmentedControlDemo
+//  EasySegmentedControl
 //
-//  Created by 王树军 on 2018/12/17.
+//  Created by 王树军 on 2018/12/19.
 //  Copyright © 2018 王树军. All rights reserved.
 //
 
@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
