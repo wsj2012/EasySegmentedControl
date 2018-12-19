@@ -9,20 +9,20 @@
 import UIKit
 import QuartzCore
 
-enum SelectionStyle: Int {
+public enum SelectionStyle: Int {
     case TextWidthStripe
     case FullWidthStripe
     case Box
     case Arrow
 }
 
-enum IndicatorLocation: Int {
+public enum IndicatorLocation: Int {
     case Up
     case Down
     case None
 }
 
-enum WidthStyle: Int {
+public enum WidthStyle: Int {
     case Fixed
     case Dynamic
 }
@@ -38,13 +38,13 @@ struct BorderType: OptionSet {
 
 public let NoSegment =  -1
 
-enum Type: Int {
+public enum Type: Int {
     case Text
     case Images
     case TextImages
 }
 
-enum ImagePosition: Int {
+public enum ImagePosition: Int {
     case BehindText
     case LeftOfText
     case RightOfText
@@ -52,10 +52,10 @@ enum ImagePosition: Int {
     case BelowText
 }
 
-class EasySegmentedControl: UIControl {
+public class EasySegmentedControl: UIControl {
     
-    typealias IndexChangeBlock = (_ index: Int) -> Void
-    typealias EasyTitleFormatterBlock = (_ segmentedControl: EasySegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString?
+    public typealias IndexChangeBlock = (_ index: Int) -> Void
+    public typealias EasyTitleFormatterBlock = (_ segmentedControl: EasySegmentedControl, _ title: String, _ index: Int, _ selected: Bool) -> NSAttributedString?
     
     private var _sectionTitles: [Any?] = [Any?].init()
     public var sectionTitles: [Any?] {
@@ -139,7 +139,7 @@ class EasySegmentedControl: UIControl {
     }
     
     private var _borderType: BorderType = .None
-    public var borderType: BorderType {
+    var borderType: BorderType {
         set {
             _borderType = newValue
             setNeedsDisplay()
@@ -181,7 +181,7 @@ class EasySegmentedControl: UIControl {
     }()
     
     // 重写父类frame的setter方法必须使用didSet
-    override var frame: CGRect  {
+    override public var frame: CGRect  {
         didSet {
             let newFrame = frame
             super.frame = newFrame
@@ -199,7 +199,7 @@ class EasySegmentedControl: UIControl {
         return s
     }()
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
     }
@@ -208,21 +208,20 @@ class EasySegmentedControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(with sectiontitles: [Any]) {
+    public convenience init(with sectiontitles: [Any]) {
         self.init(frame: .zero)
         self.sectionTitles = sectiontitles
         self.type = .Text
-        commonInit()
     }
     
-    convenience init(with sectionImages: [UIImage], sectionSelectedImages: [UIImage] ) {
+    public convenience init(with sectionImages: [UIImage], sectionSelectedImages: [UIImage] ) {
         self.init(frame: .zero)
         self.sectionImages = sectionImages
         self.sectionSelectedImages = sectionSelectedImages
         self.type = .Images
     }
     
-    convenience init(with sectionImages: [UIImage], sectionSelectedImages: [UIImage], sectiontitles: [Any]) {
+    public convenience init(with sectionImages: [UIImage], sectionSelectedImages: [UIImage], sectiontitles: [Any]) {
         self.init(frame: .zero)
         if sectionImages.count != sectiontitles.count {
             NSException.raise(NSExceptionName.rangeException, format: "***%s: Images bounds (%ld) Don't match Title bounds (%ld)", arguments: getVaList([#function, sectionImages.count, sectiontitles.count]))
@@ -234,7 +233,7 @@ class EasySegmentedControl: UIControl {
         self.type = .TextImages
     }
     
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         self.segmentWidth = 0.0
     }
@@ -251,7 +250,7 @@ class EasySegmentedControl: UIControl {
         contentMode = .redraw
     }
     
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         updateSegmentsRects()
     }
@@ -279,7 +278,7 @@ class EasySegmentedControl: UIControl {
             assert(title == nil, "Unexpected type of segment title nil")
             size = .zero
         }
-
+        
         // it's different from HM return CGRectIntegral((CGRect){CGPointZero, size}).size
         return size
     }
@@ -301,7 +300,7 @@ class EasySegmentedControl: UIControl {
         }
     }
     
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         backgroundsColor.setFill()
         UIRectFill(bounds)
         selectionIndicatorArrowLayer.backgroundColor = selectionIndicatorColor.cgColor
@@ -562,7 +561,7 @@ class EasySegmentedControl: UIControl {
         var p1 = CGPoint.zero
         var p2 = CGPoint.zero
         var p3 = CGPoint.zero
-
+        
         if selectionIndicatorLocation == .Down {
             p1 = CGPoint(x: selectionIndicatorArrowLayer.bounds.size.width / 2, y: 0)
             p2 = CGPoint(x: 0, y: selectionIndicatorArrowLayer.bounds.size.height)
@@ -630,7 +629,7 @@ class EasySegmentedControl: UIControl {
                         return CGRect(x: selectedSegmentOffset + selectionIndicatorEdgeInsets.left, y: indicatorYOffset, width: CGFloat(widthsArr[selectedSegmentIndex].floatValue) - selectionIndicatorEdgeInsets.right, height: selectionIndicatorHeight + self.selectionIndicatorEdgeInsets.bottom)
                     }
                 }
-
+                
                 return CGRect(x: (segmentWidth + selectionIndicatorEdgeInsets.left) * CGFloat(selectedSegmentIndex), y: indicatorYOffset, width: segmentWidth - selectionIndicatorEdgeInsets.right, height: selectionIndicatorHeight)
             }
         }
@@ -735,7 +734,7 @@ class EasySegmentedControl: UIControl {
         return 0
     }
     
-    override func willMove(toSuperview newSuperview: UIView?) {
+    override public func willMove(toSuperview newSuperview: UIView?) {
         if newSuperview == nil {
             return
         }
@@ -745,7 +744,7 @@ class EasySegmentedControl: UIControl {
     }
     
     //MARK: - Touch
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = ((touches as NSSet).anyObject() as AnyObject)
         let touchLocation = touch.location(in: self)
         let enlargeRect = CGRect(x: bounds.origin.x - enlargeEdgeInset.left, y: bounds.origin.y - enlargeEdgeInset.top, width: bounds.size.width + enlargeEdgeInset.left + enlargeEdgeInset.right, height: bounds.size.height + enlargeEdgeInset.top + enlargeEdgeInset.bottom)
@@ -793,7 +792,6 @@ class EasySegmentedControl: UIControl {
             return CGFloat(sectionImages.count) * segmentWidth
         }
     }
-    
     
     private func scrollToSelectedSegmentIndex(_ animated: Bool) {
         var rectForSelectedIndex = CGRect.zero
@@ -902,7 +900,7 @@ class EasySegmentedControl: UIControl {
     //MARK: - Styling Support
     private func resultingTitleTextAttributes() -> [NSAttributedString.Key: Any] {
         var defaults: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 19),
-                        NSAttributedString.Key.foregroundColor: UIColor.black]
+                                                       NSAttributedString.Key.foregroundColor: UIColor.black]
         if let attributes = titleTextAttributes {
             attributes.forEach { (key, value) in
                 defaults.updateValue(value, forKey: key)
@@ -949,8 +947,4 @@ class EasyScrollView: UIScrollView {
         }
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-
-        return super.hitTest(point, with: event)
-    }
 }
