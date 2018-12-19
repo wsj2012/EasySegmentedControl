@@ -46,7 +46,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let sc = EasySegmentedControl.init(with: ["Trending", "News", "Library"])
         sc.frame = CGRect(x: 0, y: 88, width: viewWidth, height: 40)
         sc.autoresizingMask = [.flexibleRightMargin, .flexibleWidth]
-        sc.backgroundColor = UIColor.red
+        sc.backgroundsColor = UIColor.clear
         sc.addTarget(self, action: #selector(segmentedControlChangedValue(segmentedControl:)), for: .valueChanged)
         view.addSubview(sc)
                 
@@ -88,7 +88,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
             print("Selected index \(index) (via block)")
         }
         sc3.selectionIndicatorHeight = 4.0
-        sc3.backgroundColor = UIColor(red: 0.1, green: 0.4, blue: 0.8, alpha: 1)
+        sc3.backgroundsColor = UIColor(red: 0.1, green: 0.4, blue: 0.8, alpha: 1)
         sc3.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         sc3.selectionIndicatorColor = UIColor(red: 0.5, green: 0.8, blue: 1, alpha: 1)
         sc3.selectionIndicatorBoxColor = UIColor.black

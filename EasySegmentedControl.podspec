@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "EasySegmentedControl"
-s.version      = "2.0.0"
+s.version      = "2.0.1"
 s.summary      = "swift版本HMSegmentedControl,一个好用的第三方分段控制器库，样式可深度灵活定制。"
 s.homepage     = "https://github.com/wsj2012/EasySegmentedControl"
 s.license      = "MIT"
