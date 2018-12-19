@@ -166,28 +166,26 @@ class EasySegmentedControl: UIControl {
     public var shouldAnimateUserSelection: Bool = true
     
     lazy private var selectionIndicatorStripLayer: CALayer = {
-        let layer = CALayer.init()
+        let layer = CALayer(layer: self)
         return layer
     }()
     
     lazy private var selectionIndicatorBoxLayer: CALayer = {
-        let layer = CALayer.init()
+        let layer = CALayer(layer: self)
         return layer
     }()
     
     lazy private var selectionIndicatorArrowLayer: CALayer = {
-        let layer = CALayer.init()
+        let layer = CALayer(layer: self)
         return layer
     }()
     
-    private var _frame: CGRect = .zero
+    // 重写父类frame的setter方法必须使用didSet
     override var frame: CGRect  {
-        set {
-            _frame = newValue
+        didSet {
+            let newFrame = frame
+            super.frame = newFrame
             updateSegmentsRects()
-        }
-        get {
-            return _frame
         }
     }
     
@@ -259,7 +257,7 @@ class EasySegmentedControl: UIControl {
     }
     
     //MARK: - Drawing
-    func measureTitle(at index: NSInteger) -> CGSize {
+    private func measureTitle(at index: NSInteger) -> CGSize {
         if index >= sectionTitles.count {
             return .zero
         }
@@ -286,7 +284,7 @@ class EasySegmentedControl: UIControl {
         return size
     }
     
-    func attributedTitle(at index: NSInteger) -> NSAttributedString {
+    private func attributedTitle(at index: NSInteger) -> NSAttributedString {
         let selected = (index == selectedSegmentIndex) ? true : false
         if let title = sectionTitles[index], title is NSAttributedString {
             return title as! NSAttributedString
@@ -325,14 +323,14 @@ class EasySegmentedControl: UIControl {
                 let locationUp: CGFloat = (selectionIndicatorLocation == .Up) ? 1.0 : 0
                 let selectionStyleNotBox: CGFloat = (selectionStyle != .Box) ? 1.0 : 0.0
                 
-                let a = (_frame.size.height - selectionStyleNotBox * selectionIndicatorHeight) / 2 - stringHeight / 2
+                let a = (frame.size.height - selectionStyleNotBox * selectionIndicatorHeight) / 2 - stringHeight / 2
                 let b = selectionIndicatorHeight * locationUp
                 let y = roundf(Float(a + b))
                 
                 var rect: CGRect = .zero
                 if segmentWidthStyle == .Fixed {
                     rect = CGRect(x: segmentWidth * CGFloat(index) + (segmentWidth - stringWidth) / 2.0, y: CGFloat(y), width: stringWidth, height: stringHeight)
-                    rectDiv = CGRect(x: segmentWidth * CGFloat(index) - verticalDividerWidth / 2.0, y: selectionIndicatorHeight * 2, width: verticalDividerWidth, height: _frame.size.height -  (selectionIndicatorHeight * 4))
+                    rectDiv = CGRect(x: segmentWidth * CGFloat(index) - verticalDividerWidth / 2.0, y: selectionIndicatorHeight * 2, width: verticalDividerWidth, height: frame.size.height -  (selectionIndicatorHeight * 4))
                     fullRect = CGRect(x: segmentWidth * CGFloat(index), y: 0, width: segmentWidth, height: oldRect.size.height)
                 }else {
                     var xOffset: Float = 0
@@ -347,7 +345,7 @@ class EasySegmentedControl: UIControl {
                         let widthForIndex = widthArr[index].floatValue
                         rect = CGRect(x: CGFloat(xOffset), y: CGFloat(y), width: CGFloat(widthForIndex), height: stringHeight)
                         fullRect = CGRect(x: segmentWidth * CGFloat(index), y: 0, width: CGFloat(widthForIndex), height: oldRect.size.height)
-                        rectDiv = CGRect(x: CGFloat(xOffset) - verticalDividerWidth / 2, y: selectionIndicatorHeight * 2, width: verticalDividerWidth, height: _frame.size.height - selectionIndicatorHeight * 4)
+                        rectDiv = CGRect(x: CGFloat(xOffset) - verticalDividerWidth / 2, y: selectionIndicatorHeight * 2, width: verticalDividerWidth, height: frame.size.height - selectionIndicatorHeight * 4)
                     }
                 }
                 // fix rect position/size to avoid blurry labels
@@ -376,7 +374,7 @@ class EasySegmentedControl: UIControl {
                 let imageW = img.size.width
                 let imageH = img.size.height
                 
-                let a = roundf(Float(_frame.size.height - selectionIndicatorHeight)) / 2 - Float(imageH) / 2
+                let a = roundf(Float(frame.size.height - selectionIndicatorHeight)) / 2 - Float(imageH) / 2
                 let b = (selectionIndicatorLocation == .Up) ? selectionIndicatorHeight : 0
                 let y = a + Float(b)
                 let x = segmentWidth * CGFloat(index) + (segmentWidth - imageW) / 2.0
@@ -399,7 +397,7 @@ class EasySegmentedControl: UIControl {
                 // Vertical Divider
                 if verticalDividerEnabled, index > 0 {
                     let verticalDividerLayer = CALayer.init()
-                    verticalDividerLayer.frame = CGRect(x: segmentWidth * CGFloat(index) - verticalDividerWidth / 2, y: selectionIndicatorHeight * 2, width: verticalDividerWidth, height: _frame.size.height - selectionIndicatorHeight * 4)
+                    verticalDividerLayer.frame = CGRect(x: segmentWidth * CGFloat(index) - verticalDividerWidth / 2, y: selectionIndicatorHeight * 2, width: verticalDividerWidth, height: frame.size.height - selectionIndicatorHeight * 4)
                     verticalDividerLayer.backgroundColor = verticalDividerColor.cgColor
                     scrollView.layer.addSublayer(verticalDividerLayer)
                 }
@@ -415,8 +413,8 @@ class EasySegmentedControl: UIControl {
                 
                 var imageXOffset = segmentWidth * CGFloat(index) // start with edge inset
                 var textXOffset = segmentWidth * CGFloat(index)
-                var imageYOffset = ceilf(Float((_frame.size.height - imageH) / 2.0))
-                var textYOffset = ceilf(Float((_frame.size.height - stringH) / 2.0))
+                var imageYOffset = ceilf(Float((frame.size.height - imageH) / 2.0))
+                var textYOffset = ceilf(Float((frame.size.height - stringH) / 2.0))
                 
                 if segmentWidthStyle == .Fixed {
                     if (imagePosition == .LeftOfText || imagePosition == .RightOfText) {
@@ -431,7 +429,7 @@ class EasySegmentedControl: UIControl {
                     }else {
                         imageXOffset = segmentWidth * CGFloat(index) + (segmentWidth - imageW) / 2.0
                         textXOffset = segmentWidth * CGFloat(index) + (segmentWidth - stringW) / 2.0
-                        let whitespace = _frame.size.height - imageH - stringH - textImageSpacing
+                        let whitespace = frame.size.height - imageH - stringH - textImageSpacing
                         if imagePosition == .AboveText {
                             imageYOffset = ceilf(Float(whitespace / 2.0))
                             textYOffset = imageYOffset + Float(imageH) + Float(textImageSpacing)
@@ -461,7 +459,7 @@ class EasySegmentedControl: UIControl {
                         }else {
                             imageXOffset = CGFloat(xOffset) + (CGFloat(widthArr[i].floatValue) - imageW) / 2.0
                             textXOffset = CGFloat(xOffset) + (CGFloat(widthArr[i].floatValue) - stringW) / 2.0
-                            let whitespace = _frame.size.height - imageH - stringH - textImageSpacing
+                            let whitespace = frame.size.height - imageH - stringH - textImageSpacing
                             if imagePosition == .AboveText {
                                 imageYOffset = ceilf(Float(whitespace) / 2.0)
                                 textYOffset = imageYOffset + Float(imageH) + Float(textImageSpacing)
@@ -504,7 +502,6 @@ class EasySegmentedControl: UIControl {
                 addBackgroundAndBorderLayer(with: imageRect)
             }
         }
-        
         
         if selectedSegmentIndex != NoSegment {
             if selectionStyle == .Arrow {
@@ -558,7 +555,7 @@ class EasySegmentedControl: UIControl {
         }
     }
     
-    func setArrowFrame() {
+    private func setArrowFrame() {
         selectionIndicatorArrowLayer.frame = frameForSelectionIndicator()
         selectionIndicatorArrowLayer.mask = nil
         let arrowPath = UIBezierPath.init()
@@ -587,7 +584,7 @@ class EasySegmentedControl: UIControl {
         selectionIndicatorArrowLayer.mask = maskLayer
     }
     
-    func frameForSelectionIndicator() -> CGRect {
+    private func frameForSelectionIndicator() -> CGRect {
         var indicatorYOffset: CGFloat = 0.0
         if selectionIndicatorLocation == .Down {
             indicatorYOffset = bounds.size.height - selectionIndicatorHeight + selectionIndicatorEdgeInsets.bottom
@@ -639,7 +636,7 @@ class EasySegmentedControl: UIControl {
         }
     }
     
-    func frameForFillerSelectionIndicator() -> CGRect {
+    private func frameForFillerSelectionIndicator() -> CGRect {
         if segmentWidthStyle == .Dynamic {
             var selectedSegmentOffset: CGFloat = 0.0
             var i = 0
@@ -649,19 +646,18 @@ class EasySegmentedControl: UIControl {
                     selectedSegmentOffset = selectedSegmentOffset + CGFloat(item.floatValue)
                     i += 1
                 }
-                return CGRect(x: selectedSegmentOffset, y: 0, width: CGFloat(widthsArr[selectedSegmentIndex].floatValue), height: _frame.size.height)
+                return CGRect(x: selectedSegmentOffset, y: 0, width: CGFloat(widthsArr[selectedSegmentIndex].floatValue), height: frame.size.height)
             }
         }
-        return CGRect(x: segmentWidth * CGFloat(selectedSegmentIndex), y: 0, width: segmentWidth, height: _frame.size.height)
+        return CGRect(x: segmentWidth * CGFloat(selectedSegmentIndex), y: 0, width: segmentWidth, height: frame.size.height)
     }
     
-    func updateSegmentsRects() {
+    private func updateSegmentsRects() {
         scrollView.contentInset = .zero
-        scrollView.frame = frame
-//            CGRect(x: 0, y: 0, width: _frame.size.width, height: _frame.size.height)
+        scrollView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height)
         
         if sectionCount() > 0 {
-            segmentWidth = _frame.size.width / CGFloat(sectionCount())
+            segmentWidth = frame.size.width / CGFloat(sectionCount())
         }
         
         if type == .Text, segmentWidthStyle == .Fixed {
@@ -727,14 +723,10 @@ class EasySegmentedControl: UIControl {
             segmentWidthsArray = mutableSegmentWidths
         }
         scrollView.isScrollEnabled = userDraggable
-        scrollView.contentSize = CGSize(width: totalSegmentedControlWidth(), height: _frame.size.height)
-        
-        draw(frame)
-//     setNeedsDisplay()
-//        sizeThatFits(frame.size)
+        scrollView.contentSize = CGSize(width: totalSegmentedControlWidth(), height: frame.size.height)
     }
     
-    func sectionCount() -> Int {
+    private func sectionCount() -> Int {
         if type == .Text {
             return sectionTitles.count
         }else if (type == .Images || type == .TextImages) {
@@ -788,7 +780,7 @@ class EasySegmentedControl: UIControl {
     }
     
     //MARK: - Scrolling
-    func totalSegmentedControlWidth() -> CGFloat {
+    private func totalSegmentedControlWidth() -> CGFloat {
         if type == .Text, segmentWidthStyle == .Fixed {
             return CGFloat(self.sectionTitles.count) * segmentWidth
         }else if let arr = segmentWidthsArray, segmentWidthStyle == .Dynamic {
@@ -803,12 +795,12 @@ class EasySegmentedControl: UIControl {
     }
     
     
-    func scrollToSelectedSegmentIndex(_ animated: Bool) {
+    private func scrollToSelectedSegmentIndex(_ animated: Bool) {
         var rectForSelectedIndex = CGRect.zero
         var selectedSegmentOffset: CGFloat = 0.0
         if segmentWidthStyle == .Fixed {
-            rectForSelectedIndex = CGRect(x: segmentWidth * CGFloat(selectedSegmentIndex), y: 0, width: segmentWidth, height: _frame.size.height)
-            selectedSegmentOffset = _frame.size.width / 2 - segmentWidth / 2
+            rectForSelectedIndex = CGRect(x: segmentWidth * CGFloat(selectedSegmentIndex), y: 0, width: segmentWidth, height: frame.size.height)
+            selectedSegmentOffset = frame.size.width / 2 - segmentWidth / 2
         }else {
             var i = 0
             var offsetter: CGFloat = 0.0
@@ -818,8 +810,8 @@ class EasySegmentedControl: UIControl {
                     offsetter = offsetter + CGFloat(item.floatValue)
                     i += 1
                 }
-                rectForSelectedIndex = CGRect(x: offsetter, y: 0, width: CGFloat(widthsArr[selectedSegmentIndex].floatValue), height: _frame.size.height)
-                selectedSegmentOffset = _frame.size.width / 2 - CGFloat(widthsArr[selectedSegmentIndex].floatValue) / 2
+                rectForSelectedIndex = CGRect(x: offsetter, y: 0, width: CGFloat(widthsArr[selectedSegmentIndex].floatValue), height: frame.size.height)
+                selectedSegmentOffset = frame.size.width / 2 - CGFloat(widthsArr[selectedSegmentIndex].floatValue) / 2
             }
         }
         
@@ -830,15 +822,15 @@ class EasySegmentedControl: UIControl {
     }
     
     //MARK: - Index Change
-    func setSelectedSegment(index: Int) {
+    public func setSelectedSegment(index: Int) {
         setSelectedSegment(index: index, animated: false, notify: false)
     }
     
-    func setSelectedSegment(index: Int, animated: Bool) {
+    public func setSelectedSegment(index: Int, animated: Bool) {
         setSelectedSegment(index: index, animated: animated, notify: false)
     }
     
-    func setSelectedSegment(index: Int, animated: Bool, notify: Bool) {
+    public func setSelectedSegment(index: Int, animated: Bool, notify: Bool) {
         selectedSegmentIndex = index
         setNeedsDisplay()
         
@@ -898,7 +890,7 @@ class EasySegmentedControl: UIControl {
         }
     }
     
-    func notifyForSegmentChangeTo(index: Int) {
+    private func notifyForSegmentChangeTo(index: Int) {
         if superview != nil {
             sendActions(for: .valueChanged)
         }
@@ -908,7 +900,7 @@ class EasySegmentedControl: UIControl {
     }
     
     //MARK: - Styling Support
-    func resultingTitleTextAttributes() -> [NSAttributedString.Key: Any] {
+    private func resultingTitleTextAttributes() -> [NSAttributedString.Key: Any] {
         var defaults: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 19),
                         NSAttributedString.Key.foregroundColor: UIColor.black]
         if let attributes = titleTextAttributes {
@@ -919,7 +911,7 @@ class EasySegmentedControl: UIControl {
         return defaults
     }
     
-    func resultingSelectedTitleTextAttributes() -> [NSAttributedString.Key: Any] {
+    private func resultingSelectedTitleTextAttributes() -> [NSAttributedString.Key: Any] {
         var resultingAttrs = resultingTitleTextAttributes()
         if let selAttributes = selectedTitleTextAttributes {
             selAttributes.forEach { (key, value) in

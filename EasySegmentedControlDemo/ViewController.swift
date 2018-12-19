@@ -40,7 +40,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         title = "HMSegmentedControl Demo"
         view.backgroundColor = .white
-//        edgesForExtendedLayout = UIRectEdge.all
+        edgesForExtendedLayout = UIRectEdge.all
         
         let viewWidth = view.frame.size.width
         let sc = EasySegmentedControl.init(with: ["Trending", "News", "Library"])
@@ -49,9 +49,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         sc.backgroundColor = UIColor.red
         sc.addTarget(self, action: #selector(segmentedControlChangedValue(segmentedControl:)), for: .valueChanged)
         view.addSubview(sc)
-        
-//        return
-        
+                
         let sc1 = EasySegmentedControl.init(with: ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"])
         sc1.autoresizingMask = [.flexibleRightMargin, .flexibleWidth]
         sc1.frame = CGRect(x: 0, y: 60 + 68, width: viewWidth, height: 40)

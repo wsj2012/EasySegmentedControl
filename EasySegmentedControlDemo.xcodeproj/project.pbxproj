@@ -13,6 +13,7 @@
 		A238243521C78C9F00C1FC9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A238243421C78C9F00C1FC9A /* Assets.xcassets */; };
 		A238243821C78C9F00C1FC9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A238243621C78C9F00C1FC9A /* LaunchScreen.storyboard */; };
 		A238244121C78D0100C1FC9A /* EasySegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A238244021C78D0100C1FC9A /* EasySegmentedControl.swift */; };
+		A238246A21CA34DB00C1FC9A /* EasySegmentedControlDemo.podspec in Resources */ = {isa = PBXBuildFile; fileRef = A238246921CA34DB00C1FC9A /* EasySegmentedControlDemo.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		A238243721C78C9F00C1FC9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A238243921C78C9F00C1FC9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A238244021C78D0100C1FC9A /* EasySegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasySegmentedControl.swift; sourceTree = "<group>"; };
+		A238246921CA34DB00C1FC9A /* EasySegmentedControlDemo.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = EasySegmentedControlDemo.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +42,7 @@
 		A238242121C78C9D00C1FC9A = {
 			isa = PBXGroup;
 			children = (
+				A238246821CA34BF00C1FC9A /* Supporting Files */,
 				A238243F21C78D0100C1FC9A /* EasySegmentedControl */,
 				A238242C21C78C9D00C1FC9A /* EasySegmentedControlDemo */,
 				A238242B21C78C9D00C1FC9A /* Products */,
@@ -73,6 +76,14 @@
 				A238244021C78D0100C1FC9A /* EasySegmentedControl.swift */,
 			);
 			path = EasySegmentedControl;
+			sourceTree = "<group>";
+		};
+		A238246821CA34BF00C1FC9A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A238246921CA34DB00C1FC9A /* EasySegmentedControlDemo.podspec */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,6 +144,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A238246A21CA34DB00C1FC9A /* EasySegmentedControlDemo.podspec in Resources */,
 				A238243821C78C9F00C1FC9A /* LaunchScreen.storyboard in Resources */,
 				A238243521C78C9F00C1FC9A /* Assets.xcassets in Resources */,
 				A238243321C78C9D00C1FC9A /* Main.storyboard in Resources */,
