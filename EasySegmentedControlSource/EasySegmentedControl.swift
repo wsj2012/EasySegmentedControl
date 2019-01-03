@@ -352,9 +352,25 @@ public class EasySegmentedControl: UIControl {
                 let titleLayer = CATextLayer.init()
                 titleLayer.frame = rect
                 titleLayer.alignmentMode = .center
-                if Float(UIDevice.current.systemVersion)! < Float(10.0) {
+                
+                let version = String(UIDevice.current.systemVersion)
+                var result = version
+                if version.contains(".") {
+                    let arr = version.components(separatedBy: ".")
+                    if arr.count > 2, let first = arr.first {
+                        var str = "\(first)."
+                        for (index, value) in arr.enumerated() {
+                            if index > 0 {
+                                str = "\(str)\(value)"
+                            }
+                        }
+                        result = str
+                    }
+                }
+                if let r = Float(result), r < Float(10.0) {
                     titleLayer.truncationMode = .end
                 }
+                
                 titleLayer.string = attributedTitle(at: index)
                 titleLayer.contentsScale = UIScreen.main.scale
                 scrollView.layer.addSublayer(titleLayer)
@@ -477,7 +493,22 @@ public class EasySegmentedControl: UIControl {
                 titleLayer.frame = textRect
                 titleLayer.alignmentMode = .center
                 titleLayer.string = attributedTitle(at: index)
-                if Float(UIDevice.current.systemVersion)! < Float(10.0) {
+                
+                let version = String(UIDevice.current.systemVersion)
+                var result = version
+                if version.contains(".") {
+                    let arr = version.components(separatedBy: ".")
+                    if arr.count > 2, let first = arr.first {
+                        var str = "\(first)."
+                        for (index, value) in arr.enumerated() {
+                            if index > 0 {
+                                str = "\(str)\(value)"
+                            }
+                        }
+                        result = str
+                    }
+                }
+                if let r = Float(result), r < Float(10.0) {
                     titleLayer.truncationMode = .end
                 }
                 

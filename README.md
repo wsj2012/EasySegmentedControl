@@ -52,6 +52,6 @@ If you are using EasySegmentedControl in your app or know of an app that uses it
 
 # License
 
-EasySegmentedControl is licensed under the terms of the MIT License. Please see the [LICENSE](LICENSE.md) file for full details.
+EasySegmentedControl is licensed under the terms of the MIT License. Please see the [LICENSE](LICENSE) file for full details.
 
 If this code was helpful, I would love to hear from you.
