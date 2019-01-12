@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController, UIScrollViewDelegate {
     
     lazy var scrollView: UIScrollView = {
-        let s = UIScrollView.init(frame: CGRect(x: 0, y: 310 + 68, width: view.frame.size.width, height: 210))
+        let s = UIScrollView.init(frame: CGRect(x: 0, y: 310 + 68 + 40, width: view.frame.size.width, height: 210))
         s.backgroundColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
         s.isPagingEnabled = true
         s.showsHorizontalScrollIndicator = false
@@ -22,11 +22,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }()
     
     lazy var sc4: EasySegmentedControl = {
-        let sc = EasySegmentedControl.init(frame: CGRect(x: 0, y: 260 + 68, width: view.frame.size.width, height: 50))
+        let sc = EasySegmentedControl.init(frame: CGRect(x: 0, y: 260 + 68 + 40, width: view.frame.size.width, height: 50))
         sc.sectionTitles = ["Worldwide", "Local", "Headlines"]
         sc.selectedSegmentIndex = 1
         sc.backgroundColor = UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
-        sc.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        sc.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.orange]
         sc.selectedTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)]
         sc.selectionIndicatorColor = UIColor(red: 0.3, green: 0.3, blue: 0.3, alpha: 1)
         sc.selectionStyle = .Box;
@@ -38,13 +38,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        title = "HMSegmentedControl Demo"
+        title = "EasySegmentedControl Demo"
         view.backgroundColor = .white
         edgesForExtendedLayout = UIRectEdge.all
         
         let viewWidth = view.frame.size.width
         let sc = EasySegmentedControl.init(with: ["Trending", "News", "Library"])
-        sc.frame = CGRect(x: 0, y: 88, width: viewWidth, height: 40)
+        sc.frame = CGRect(x: 0, y: 88 + 40, width: viewWidth, height: 40)
         sc.autoresizingMask = [.flexibleRightMargin, .flexibleWidth]
         sc.backgroundsColor = UIColor.clear
         sc.addTarget(self, action: #selector(segmentedControlChangedValue(segmentedControl:)), for: .valueChanged)
@@ -52,7 +52,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
                 
         let sc1 = EasySegmentedControl.init(with: ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"])
         sc1.autoresizingMask = [.flexibleRightMargin, .flexibleWidth]
-        sc1.frame = CGRect(x: 0, y: 60 + 68, width: viewWidth, height: 40)
+        sc1.frame = CGRect(x: 0, y: 60 + 68 + 40, width: viewWidth, height: 40)
         sc1.segmentEdgeInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         sc1.selectionStyle = .FullWidthStripe
         sc1.selectionIndicatorLocation = .Down
@@ -72,7 +72,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         let titles: [String] = ["1", "2", "3", "4"]
         let sc2 = EasySegmentedControl.init(with: images, sectionSelectedImages: selectedImages, sectiontitles: titles)
         sc2.imagePosition = .LeftOfText
-        sc2.frame = CGRect(x: 0, y: 120 + 68, width: viewWidth, height: 50)
+        sc2.frame = CGRect(x: 0, y: 120 + 68 + 40, width: viewWidth, height: 50)
         sc2.selectionIndicatorHeight = 4.0
         sc2.backgroundsColor = UIColor.clear
         sc2.selectionIndicatorLocation = .Down
@@ -83,7 +83,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         //Segmented control with more customization and indexChangeBlock
         let sc3 = EasySegmentedControl.init(with: ["one", "Two", "Three", "4", "Five"])
-        sc3.frame = CGRect(x: 0, y: 180 + 68, width: viewWidth, height: 50)
+        sc3.frame = CGRect(x: 0, y: 180 + 68 + 40, width: viewWidth, height: 50)
         sc3.indexChangeBlock = { index in
             print("Selected index \(index) (via block)")
         }
