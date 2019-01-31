@@ -158,7 +158,18 @@ public class EasySegmentedControl: UIControl {
     public var touchEnabled: Bool = true
     public var verticalDividerEnabled: Bool = false
     public var stretchSegmentsToScreenSize: Bool = false
-    public var selectedSegmentIndex: Int = 0
+    
+    private var _selectedSegmentIndex: Int = 0
+    public var selectedSegmentIndex: Int {
+        set {
+            _selectedSegmentIndex = newValue
+            setSelectedSegment(index: newValue, animated: false, notify: false)
+        }
+        get {
+            return _selectedSegmentIndex
+        }
+    }
+    
     public var selectionIndicatorHeight: CGFloat = 5.0
     public var selectionIndicatorEdgeInsets: UIEdgeInsets =  UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     public var segmentEdgeInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)

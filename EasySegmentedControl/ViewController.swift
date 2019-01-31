@@ -47,6 +47,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         sc.frame = CGRect(x: 0, y: 88 + 40, width: viewWidth, height: 40)
         sc.autoresizingMask = [.flexibleRightMargin, .flexibleWidth]
         sc.backgroundsColor = UIColor.clear
+        sc.selectionIndicatorLocation = .Down
         sc.addTarget(self, action: #selector(segmentedControlChangedValue(segmentedControl:)), for: .valueChanged)
         view.addSubview(sc)
                 
