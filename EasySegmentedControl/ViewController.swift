@@ -68,17 +68,19 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(sc1)
         
         // Segmented control with images
-        let images: [UIImage] = [UIImage(named: "1")!, UIImage(named: "2")!, UIImage(named: "3")!, UIImage(named: "4")!]
-        let selectedImages: [UIImage] = [UIImage(named: "1-selected")!, UIImage(named: "2-selected")!, UIImage(named: "3-selected")!, UIImage(named: "4-selected")!]
-        let titles: [String] = ["1", "2", "3", "4"]
-        let sc2 = EasySegmentedControl.init(with: images, sectionSelectedImages: selectedImages, sectiontitles: titles)
-        sc2.imagePosition = .LeftOfText
+        let redicon = UIImage(named: "redIcon") ?? UIImage()
+        let sc2 = EasySegmentedControl.init(with: [redicon, redicon, redicon, redicon], sectionSelectedImages: [redicon, redicon, redicon, redicon], sectiontitles: ["未放款", "还款中", "已结清", "全部"])
+//        let images: [UIImage] = [UIImage(named: "1")!, UIImage(named: "2")!, UIImage(named: "3")!, UIImage(named: "4")!]
+//        let selectedImages: [UIImage] = [UIImage(named: "1-selected")!, UIImage(named: "2-selected")!, UIImage(named: "3-selected")!, UIImage(named: "4-selected")!]
+//        let titles: [String] = ["1", "2", "3", "4"]
+//        let sc2 = EasySegmentedControl.init(with: images, sectionSelectedImages: selectedImages, sectiontitles: titles)
+        sc2.imagePosition = .RightTopText
         sc2.frame = CGRect(x: 0, y: 120 + 68 + 40, width: viewWidth, height: 50)
         sc2.selectionIndicatorHeight = 4.0
         sc2.backgroundsColor = UIColor.clear
         sc2.selectionIndicatorLocation = .Down
         sc2.selectionStyle = .TextWidthStripe
-        sc2.segmentWidthStyle = .Dynamic
+        sc2.segmentWidthStyle = .Fixed
         sc2.addTarget(self, action: #selector(segmentedControlChangedValue(segmentedControl:)), for: .valueChanged)
         view.addSubview(sc2)
         

@@ -50,6 +50,7 @@ public enum ImagePosition: Int {
     case RightOfText
     case AboveText
     case BelowText
+    case RightTopText
 }
 
 public class EasySegmentedControl: UIControl {
@@ -453,10 +454,14 @@ public class EasySegmentedControl: UIControl {
                             imageXOffset = textXOffset + stringW + textImageSpacing
                         }
                     }else {
-                        imageXOffset = segmentWidth * CGFloat(index) + (segmentWidth - imageW) / 2.0
+                        if imagePosition == .RightTopText {
+                            imageXOffset = segmentWidth * CGFloat(index) + (segmentWidth - imageW) / 2.0 + stringW / 2.0 + 7
+                        }else {
+                            imageXOffset = segmentWidth * CGFloat(index) + (segmentWidth - imageW) / 2.0
+                        }
                         textXOffset = segmentWidth * CGFloat(index) + (segmentWidth - stringW) / 2.0
                         let whitespace = frame.size.height - imageH - stringH - textImageSpacing
-                        if imagePosition == .AboveText {
+                        if imagePosition == .AboveText || imagePosition == .RightTopText {
                             imageYOffset = ceilf(Float(whitespace / 2.0))
                             textYOffset = imageYOffset + Float(imageH) + Float(textImageSpacing)
                         }else if imagePosition == .BelowText {
@@ -486,7 +491,7 @@ public class EasySegmentedControl: UIControl {
                             imageXOffset = CGFloat(xOffset) + (CGFloat(widthArr[i].floatValue) - imageW) / 2.0
                             textXOffset = CGFloat(xOffset) + (CGFloat(widthArr[i].floatValue) - stringW) / 2.0
                             let whitespace = frame.size.height - imageH - stringH - textImageSpacing
-                            if imagePosition == .AboveText {
+                            if imagePosition == .AboveText || imagePosition == .RightTopText {
                                 imageYOffset = ceilf(Float(whitespace) / 2.0)
                                 textYOffset = imageYOffset + Float(imageH) + Float(textImageSpacing)
                             }else if imagePosition == .BelowText {
@@ -871,7 +876,7 @@ public class EasySegmentedControl: UIControl {
     }
     
     public func setSelectedSegment(index: Int, animated: Bool, notify: Bool) {
-        selectedSegmentIndex = index
+        _selectedSegmentIndex = index
         setNeedsDisplay()
         
         if index == NoSegment {
